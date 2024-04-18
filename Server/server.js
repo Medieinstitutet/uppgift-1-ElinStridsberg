@@ -1,49 +1,53 @@
-let mongodb = require("mongodb");
-let express = require("express");
+const mongodb = require("mongodb"); // Glömde importen
+const express = require("express");
 
-let app = express();
+const dbRouter = require("./Database/Database.router");
+const { makeOrder } = require("./Database/Database.controller");
+const app = express();
 
 app.get("/products", (request, response) => {
-    
-    let url = 'mongodb://localhost:27017';
-    let client = new mongodb.MongoClient(url);
+    const url = 'mongodb://localhost:27017';
+    const client = new mongodb.MongoClient(url);
 
     client.connect().then(() => {
         console.log("connected");
 
-        let db = client.db('shop');
-        let collection = db.collection('Product');
+        const db = client.db('shop');
+        const collection = db.collection('Product');
 
-            return collection.find({}).toArray().then((results) => {
-                console.log("Found", results);
-                response.json(results);
-            });
+        return collection.find({}).toArray().then((results) => {
+            console.log("Found", results);
+            response.json(results);
+        });
 
     }).finally(() => {
         client.close();
     })
 });
-
 
 app.get("/orders", (request, response) => {
-    
-    let url = 'mongodb://localhost:27017';
-    let client = new mongodb.MongoClient(url);
+    const url = 'mongodb://localhost:27017';
+    const client = new mongodb.MongoClient(url);
 
     client.connect().then(() => {
         console.log("connected");
 
-        let db = client.db('shop');
-        let collection = db.collection('Order');
+        const db = client.db('shop');
+        const collection = db.collection('Order');
 
-            return collection.find({}).toArray().then((results) => {
-                console.log("Found", results);
-                response.json(results);
-            });
+        return collection.find({}).toArray().then((results) => {
+            console.log("Found", results);
+            response.json(results);
+        });
 
     }).finally(() => {
         client.close();
     })
 });
 
-app.listen(3000);
+const result =  makeOrder();
+        console.log(result);
+
+app.listen(3000, () => {
+    console.log("Server is up and running...");
+});
