@@ -8,6 +8,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductList />} />
+        {/* <Route path="/create-order" element={<createOrder />} /> */}
       </Routes>
     </Router>
   );

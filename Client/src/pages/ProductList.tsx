@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Product } from '../models/Product';
 
 const ProductList = () => {
@@ -8,7 +8,9 @@ const ProductList = () => {
         const fetchProducts = async () => {
             const response = await fetch("http://localhost:3000/products");
             const data = await response.json();
+           console.log(data)
             setProducts(data);
+            
           
         };
         fetchProducts();
@@ -18,9 +20,7 @@ const ProductList = () => {
         <div>
             {products && products.map((product, index) => (
                 <div key={index}>
-                    <h1>{product.Name}</h1>
-                    <p>{product.Description}</p>
-                    <p>Price: {product.Price}</p>
+                    <h1>HEJ{product.Name}</h1>
                 </div>
             ))}
         </div>
