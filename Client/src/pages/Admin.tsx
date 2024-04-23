@@ -6,8 +6,11 @@ import '../styles/admin.css';
 export const Admin = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-    
+    const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+    const [editedProductName, setEditedProductName] = useState<string>('');
+    const [editedAmountInStock, setEditedAmountInStock] = useState<number>(0);
+    const [editedPrice, setEditedPrice] = useState<number>(0);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -16,7 +19,6 @@ export const Admin = () => {
                     throw new Error(`Failed to fetch products: ${response.statusText}`);
                 }
                 const data = await response.json();
-                console.log(data);
                 setProducts(data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -33,7 +35,6 @@ export const Admin = () => {
                     throw new Error(`Failed to fetch orders: ${response.statusText}`);
                 }
                 const data = await response.json();
-                console.log(data);
                 setOrders(data);
             } catch (error) {
                 console.error("Error fetching orders:", error);
@@ -42,19 +43,47 @@ export const Admin = () => {
         fetchOrders();
     }, []);
 
-    const updateProduct = async () => {
+    const handleEditClick = (productId: string) => {
+        setSelectedProductId(productId);
+        const selectedProduct = products.find(product => product._id === productId);
+        if (selectedProduct) {
+            setEditedProductName(selectedProduct.name);
+            setEditedAmountInStock(selectedProduct.amountInStock);
+            setEditedPrice(selectedProduct.price);
+        }
+    }
+
+    const handleSaveClick = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/products/${productId}`);
+            const updatedProductData = {
+                name: editedProductName,
+                amountInStock: editedAmountInStock,
+                price: editedPrice
+            };
+
+            const response = await fetch(`http://localhost:3000/products/${selectedProductId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedProductData)
+            });
+
             if (!response.ok) {
                 throw new Error(`Failed to update product: ${response.statusText}`);
             }
-            const data = await response.json();
-            console.log(data); 
-            console.log("Product updated successfully");
-            // Uppdatera din lokala produktdatabas efter framgångsrik uppdatering om det behövs
+
+            const updatedProducts = products.map(product =>
+                product._id === selectedProductId ? { ...product, ...updatedProductData } : product
+            );
+            setProducts(updatedProducts);
+
+            setSelectedProductId(null);
+            setEditedProductName('');
+            setEditedAmountInStock(0);
+            setEditedPrice(0);
         } catch (error) {
-            console.error("Error updating product:", error);
-            // Hantera fel här om det behövs
+            console.error("Error saving product:", error);
         }
     }
     
@@ -64,18 +93,39 @@ export const Admin = () => {
                 <h3>Produktlista</h3>
                 {products && products.map((product, index) => (
                     <div key={index}>
-                        <h1>{product._id}</h1>
-                        <p>{product.name} kr</p>
-                        <p>{product.price}</p>
-                        <button>Ta bort produkt</button>
-                        <button onClick={() => {
-                            updateProduct
-                            console.log("Selected product:", product);
-                        }}>
-                            Redigera produkt
-                        </button>
+                        {selectedProductId === product._id ? (
+                            <div>
+                                <label>Produktnamn: </label>
+                                <input
+                                    type="text"
+                                    value={editedProductName}
+                                    onChange={e => setEditedProductName(e.target.value)}
+                                />
+                                <label>Lager i saldo: </label>
+                                <input
+                                    type="text"
+                                    value={editedAmountInStock}
+                                    onChange={e => setEditedAmountInStock(parseInt(e.target.value))}
+                                />
+                                <label>Pris: </label>
+                                <input
+                                    type="text"
+                                    value={editedPrice}
+                                    onChange={e => setEditedPrice(parseFloat(e.target.value))}
+                                />
+                                <button onClick={handleSaveClick}>Spara</button>
+                            </div>
+                        ) : (
+                            <div>
+                                <h1>{product.name}</h1>
+                                <p>Antal i lager: {product.amountInStock}</p>
+                                <p>Produktpris: {product.price} kr</p>
+                                <button onClick={() => handleEditClick(product._id)}>Redigera produkt</button>
+                            </div>
+                        )}
                     </div>
                 ))}
+                <button>Lägg till produkt</button>
                 <div className="adminOrderList">
                     <h3>Orderhistorik: </h3>
                     <p>hej</p>
