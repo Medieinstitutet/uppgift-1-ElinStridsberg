@@ -1,0 +1,78 @@
+.container{
+    /* background-color: aqua; */
+    margin-top: 100px;
+}
+
+h1{
+    font-family: "Sedan", serif;
+    font-weight: 400;
+    font-style: normal;
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #000; 
+    line-height: 0.1em;
+    margin: 10px 0 20px; 
+}
+
+h1 span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+
+.heading{
+    margin-bottom: 40px;
+    padding: 60px;
+}
+.products {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    color: #464545;
+    font-style: normal;
+    display: grid;
+    grid-template-columns: repeat(4, 2fr); 
+    grid-column-start: 2;
+    grid-column-end: 5;
+    grid-template-rows: 470px 500px; /* Två rader med automatisk höjd */
+
+    gap: 10px; /* Justera värdet efter behov */
+    width: 70%;
+    justify-content: center; 
+    align-content: center;
+    margin-top: 10px;
+    margin-bottom: 90px;
+    justify-content: center;
+    justify-self: center;
+    justify-items: center;
+    margin: auto;
+}
+
+.product{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(196, 195, 195);
+}
+.productImg{
+    width:100%;
+}
+
+.buy{
+    background-color: rgb(1, 72, 1);
+    width: 80px;
+    height: 35px;
+    color: #fff;
+    font-weight: 700;
+    font-size: medium;
+    
+}
+
+.product:hover {
+    border-color: black; /* Ändra ramfärgen när du hoverar över produkten */
+}
+
+.product:hover .buy {
+    transform: scale(1.1); /* Göra knappen större när du hoverar över produkten */
+}
+
+.description{
+    font-style: italic;
+    font-size: smaller;
+}

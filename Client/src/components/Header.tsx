@@ -1,6 +1,7 @@
 import '../styles/header.css';
-
+import Logo from "../images/logo.png"
 export const Header = () => {
 
-    return <><div className="header">HEADER</div></>
+    return <>
+    <img src={Logo} alt="" /></>
 }

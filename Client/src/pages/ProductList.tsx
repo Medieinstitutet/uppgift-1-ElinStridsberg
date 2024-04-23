@@ -16,13 +16,14 @@ const ProductList = () => {
     }, []);
 
     return (
-        <div>
+        <div className='products'>
             {products && products.map((product, index) => (
-                <div key={index}>
-                    <h1>{product.name}</h1>
-                    <p>{product.description}</p>
+                <div key={index} className='product'>
+                    <img src={product.image} className='productImg'/>
+                    <h3>{product.name}</h3>
+                    <p className='description'>{product.description}</p>
                     <p>{product.price} kr</p>
-                    <button>Köp </button>
+                    <button className='buy'>KÖP </button>
                 </div>
             ))}
         </div>

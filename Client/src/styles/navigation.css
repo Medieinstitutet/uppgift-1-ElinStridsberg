@@ -1,29 +1,55 @@
 nav {
+  padding: 30px;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #f0f0f0; /* Bakgrundsfärg för navigationsfältet */
+  background-color: #000000; /* Bakgrundsfärg för navigationsfältet */
   z-index: 1000; /* Sätt z-index för att placera navigationen ovanpå andra element */
+  display: flex;
+  justify-content: space-between; /* Placera logotypen till vänster och länkarna till höger */
+  align-items: center; /* Centrera vertikalt */
+}
+
+.logo {
+ color: #FFCC00 ;
+
+  
+}
+
+.Logo {
+  display: flex;
+  align-items: center; /* Centrera logotypen vertikalt */
 }
 
 nav ul {
+  margin-left: auto; /* Flytta länkarna till högra hörnet */
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: center; /* Centrera länkarna horisontellt */
+  align-items: center;
 }
 
 nav ul li {
   margin: 0 10px; /* Avstånd mellan länkarna */
+  font-weight: 900;
+  color: white;
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #333; /* Färg på länkarna */
+  color: white; /* Färg på länkarna */
 }
 
 nav ul li a:hover {
-  color: #666; /* Färg på länkarna vid hovring */
+  color: white; /* Färg på länkarna vid hovring */
+}
+
+img {
+  width: 100px; /* Justera logotypens storlek efter behov */
+}
+
+.AdminBtn {
+  margin-right: 70px;
 }

@@ -15,9 +15,17 @@ body {
     padding: 0;
 }
 .admin{
-    width: 80%;
+    width: 100%;
+}
+.adminProductList{
+    margin-top: 150px;
 }
 
+.product{
+    background-color: aqua;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
 .order{
     border: 1px solid black;
 }

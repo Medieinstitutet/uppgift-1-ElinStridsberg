@@ -99,9 +99,9 @@ export const Admin = () => {
     return (
         <div className="admin">
             <div className="adminProductList">
-                <h3>Produktlista</h3>
+                <h2>Produktlista</h2>
                 {products && products.map((product, index) => (
-                    <div key={index}>
+                    <div key={index} className="product">
                         {selectedProductId === product._id ? (
                             <div>
                                 <label>Produktnamn: </label>
