@@ -1,9 +1,9 @@
 export interface Product {
     _id: string,
-    Name: string,
-    Description: string,
-    Images: string[],  
-    AmountInStock: number,
-    Price: number,
-    Status: string
+    name: string,
+    description: string,
+    image: string[],  
+    mountInStock: number,
+    price: number,
+    status: string
 }

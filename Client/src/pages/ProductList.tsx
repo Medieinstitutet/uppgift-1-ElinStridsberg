@@ -20,7 +20,10 @@ const ProductList = () => {
         <div>
             {products && products.map((product, index) => (
                 <div key={index}>
-                    <h1>HEJ{product.Name}</h1>
+                    <h1>{product.name}</h1>
+                    <p>{product.description}</p>
+                    <p>{product.price} kr</p>
+                    <button>Lägg till produkt</button>
                 </div>
             ))}
         </div>

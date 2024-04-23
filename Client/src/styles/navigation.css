@@ -1,9 +1,29 @@
-.navigation {
-    background-color: #c6c3c3;
-    color: white;
-    padding: 15px
-  }
-  
-  .navigation h1 {
-    margin: 0;
-  }
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f0f0f0; /* Bakgrundsfärg för navigationsfältet */
+  z-index: 1000; /* Sätt z-index för att placera navigationen ovanpå andra element */
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Centrera länkarna horisontellt */
+}
+
+nav ul li {
+  margin: 0 10px; /* Avstånd mellan länkarna */
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333; /* Färg på länkarna */
+}
+
+nav ul li a:hover {
+  color: #666; /* Färg på länkarna vid hovring */
+}

@@ -9,17 +9,17 @@ import { Footer } from '../components/Footer';
 const HomePage = () => {
   return (
     <>
-    <Header />
-    <Navigation />
-    <Pics />
-    <Main />
+
+    {/* <Navigation /> */}
+    {/* <Pics />
+    <Main /> */}
     <div> 
       {/* Använd Link-komponenten för att skapa en länk */}
-      <Link to="/products">
+      {/* <Link to="/products">
         <button>Till eshop</button>
-      </Link>
+      </Link> */}
     </div>
-    <Footer />
+
 </>
   );
 };

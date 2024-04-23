@@ -1,10 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Router from './Router'; // Använd "from" och ta bort parenteserna runt filvägen
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Router />
+import { RouterProvider } from 'react-router-dom'
+import { router } from './Router.tsx'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+<React.StrictMode>
+    <RouterProvider router={router}></RouterProvider>
   </React.StrictMode>,
-  document.getElementById('root')
-);
+)

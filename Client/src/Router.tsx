@@ -1,17 +1,33 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ProductList from './pages/ProductList';
+import { createBrowserRouter } from "react-router-dom";
+import { Admin } from "./pages/Admin";
+import HomePage from "./pages/HomePage";
+import ProductList from "./pages/ProductList";
+import { Layout } from "./pages/Layout";
+import { NotFound } from "./pages/NorFound";
 
-const AppRouter = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductList />} />
-        {/* <Route path="/create-order" element={<createOrder />} /> */}
-      </Routes>
-    </Router>
-  );
-}
-
-export default AppRouter;
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/products",
+        element: <ProductList />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+      
+    ],
+  },
+]);
