@@ -9,7 +9,7 @@ export const Orders = () => {
             const response = await fetch("http://localhost:3000/orders");
             const data = await response.json();
            console.log(data)
-            setOrders(data);
+            setOrders(data.data);
             
           
         };
@@ -22,7 +22,7 @@ export const Orders = () => {
             {orders && orders.map((order, index) => (
                 <div key={index}>
                     <p>hej</p>
-                    <h1>{order.customer.firstName}</h1>
+                    <h1>{order.linkedCustomer.firstName}</h1>
 
                    
                 </div>

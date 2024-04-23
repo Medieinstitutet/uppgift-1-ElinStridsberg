@@ -10,7 +10,6 @@ const ProductList = () => {
             const data = await response.json();
            console.log(data)
             setProducts(data);
-            
           
         };
         fetchProducts();
@@ -23,7 +22,7 @@ const ProductList = () => {
                     <h1>{product.name}</h1>
                     <p>{product.description}</p>
                     <p>{product.price} kr</p>
-                    <button>Lägg till produkt</button>
+                    <button>Köp </button>
                 </div>
             ))}
         </div>

@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { Product } from "../models/Product";
-import { Order } from "../models/Order";
+import { Customer, Order } from "../models/Order";
 import '../styles/admin.css';
 
 export const Admin = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
+    const [customer, setCustomer] = useState<Customer[]>([])
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [editedProductName, setEditedProductName] = useState<string>('');
     const [editedAmountInStock, setEditedAmountInStock] = useState<number>(0);
     const [editedPrice, setEditedPrice] = useState<number>(0);
+
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -31,10 +34,12 @@ export const Admin = () => {
         const fetchOrders = async () => {
             try {
                 const response = await fetch("http://localhost:3000/orders");
+                
                 if (!response.ok) {
                     throw new Error(`Failed to fetch orders: ${response.statusText}`);
                 }
                 const data = await response.json();
+                console.log(data)
                 setOrders(data);
             } catch (error) {
                 console.error("Error fetching orders:", error);
@@ -86,6 +91,10 @@ export const Admin = () => {
             console.error("Error saving product:", error);
         }
     }
+    const addProduct = () => {
+        console.log("lägg till produkt")
+        return <></>
+    }
     
     return (
         <div className="admin">
@@ -122,20 +131,44 @@ export const Admin = () => {
                                 <p>Produktpris: {product.price} kr</p>
                                 <button onClick={() => handleEditClick(product._id)}>Redigera produkt</button>
                             </div>
+                            
                         )}
                     </div>
                 ))}
-                <button>Lägg till produkt</button>
+               
+                <button onClick={addProduct}>Lägg till produkt</button>
                 <div className="adminOrderList">
-                    <h3>Orderhistorik: </h3>
-                    <p>hej</p>
-                    {orders && orders.map((order, index) => (
-                        <div key={index}>
-                            <h1>{order.customer.firstName}</h1>
-                        </div>
-                    ))}
-                </div>
-            </div>
+    <h3>Orderhistorik: </h3>
+    <div className="order">
+    {orders && orders.map((order, index) => (
+        <div key={index}>
+            <h3>Orderid: {order._id}</h3>
+            <p>orderDate: {order.orderDate}</p>
+            <p>TotalPrice: {order.totalPrice}</p>
+            <p>paymentId: {order.paymentId}</p>
+            {/* Kontrollera om det finns en kund kopplad till ordern innan du försöker visa dess egenskaper */}
+            {order.customer.length > 0 && (
+                <p>Status: {order.customer[0]._id}</p>
+            )}
+            <div>
+    <h4>Produkter i ordern:</h4>
+    {order.lineItems.map((lineItem, itemIndex) => (
+        <div key={itemIndex}>
+            {lineItem.product && (
+                <>
+                    <p>Produkt: {lineItem.product.name}</p>
+                    <p>Antal: {lineItem.amount}</p>
+                    <p>Totalpris: {lineItem.totalPrice}</p>
+                </>
+            )}
         </div>
-    );
-}
+        
+    ))}<hr></hr>
+</div></div>
+
+        
+    ))}
+
+</div></div>
+</div></div>
+)}

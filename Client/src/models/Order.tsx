@@ -1,31 +1,45 @@
+export interface Address {
+    adress1: string;
+    adress2: string;
+    zipCode: string;
+    city: string;
+    country: string;
+}
+
+export interface Product {
+    _id: string;
+    amountInStock: number;
+    category: string | null;
+    description: string | null;
+    image: string | null;
+    name: string;
+    price: number;
+    status: string;
+}
+
+export interface Customer {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    adress: Address;
+    password: string;
+}
+
+export interface LineItem {
+    _id: string;
+    product: Product; // Referens till Product-interfacet
+    amount: string;
+    order: string;
+    totalPrice: number;
+}
+
 export interface Order {
-    _id: string,
-    customer: {
-        _id: string,
-        firstName: string,
-        lastName: string,
-        adress: {
-            adress1: string;
-            adress2: string;
-            zipCode: string;
-            city: string;
-            country: string;
-        };
-        password: string;
-    };
-    linkedItems: {
-        amount: string,
-        order: string,
-        product: {
-            amountInStock: number,
-            category: string,
-            description: string,
-            image: null,
-            price: number,
-            status: string,
-            _id: string
-        },
-        totalPrice: number,
-        _id: string,
-    }[]
+    _id: string;
+    customer: Customer[];
+    totalPrice: number;
+    orderDate: string;
+    status: string;
+    paymentId: string | null;
+    lineItems: LineItem[]; // Array av LineItem-objekt
+    linkedCustomer: Customer;
 }

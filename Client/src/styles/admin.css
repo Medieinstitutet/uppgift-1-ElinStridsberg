@@ -17,6 +17,10 @@ body {
 .admin{
     width: 80%;
 }
+
+.order{
+    border: 1px solid black;
+}
 /* 
 .adminProductList{
     background-color: aqua;
