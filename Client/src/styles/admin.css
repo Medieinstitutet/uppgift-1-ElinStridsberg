@@ -1,0 +1,109 @@
+
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%; /* Ändra till önskad bredd, t.ex. 80% */
+    margin: 0 auto; /* För att centrera horisontellt */
+    text-align: center;
+}
+body {
+    height: 100%;
+ 
+    margin: 0;
+    padding: 0;
+}
+
+h2{
+    margin-top: 190px;
+    margin-bottom: -100px;
+    font-size: 30px;
+}
+.admin{
+    width: 100%;
+}
+
+
+.adminProductList {
+    display: flex;
+    flex-wrap: wrap;
+    h1{
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        border: none;
+        font-size: larger;
+    }
+}
+
+.product{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(196, 195, 195);
+    padding: 15px;
+    justify-content: space-between;        
+}
+
+.adminProductList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrera elementen horisontellt */
+    align-items: center; /* Centrera elementen vertikalt */
+    gap: 20px; /* Avstånd mellan elementen */
+    margin-top: 150px;
+}
+
+.order{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrera elementen horisontellt */
+    align-items: center; /* Centrera elementen vertikalt */
+    gap: 20px; /* Avstånd mellan elementen */
+    margin-top: 150px;
+    margin-bottom: 50px;
+        
+    
+}
+
+.oneOrder{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(196, 195, 195);
+    width: 30%;
+    h4{
+        margin-top: 0;
+        margin-bottom: 0px;
+    }
+}
+.orderName{
+    margin-top: 70px;
+    
+    
+}
+
+.addProduct{
+    background-color: rgb(1, 72, 1);
+    width: 200px;
+    height: 40px;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 60px; /* Lägg till lite mellanrum över knappen */
+    align-self: center;
+    &:hover {
+        background-color: rgb(0, 56, 0); /* Ändra bakgrundsfärgen när musen sveps över */
+    }
+
+}
+.editProduct{
+    background-color: rgb(1, 72, 1);
+    width: 160px;
+    height: 40px;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 10px; /* Lägg till lite mellanrum över knappen */
+    align-self: center;
+    &:hover {
+        background-color: rgb(0, 56, 0); /* Ändra bakgrundsfärgen när musen sveps över */
+    }
+}

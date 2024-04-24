@@ -1,0 +1,57 @@
+nav {
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000; /* Bakgrundsfärg för navigationsfältet */
+  z-index: 1000; /* Sätt z-index för att placera navigationen ovanpå andra element */
+  display: flex;
+  justify-content: space-between; /* Placera logotypen till vänster och länkarna till höger */
+  align-items: center; /* Centrera vertikalt */
+}
+
+.logo {
+  color: #FFCC00;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.Logo {
+  display: flex;
+  align-items: center; /* Centrera logotypen vertikalt */
+}
+
+nav ul {
+  margin-left: auto; /* Flytta länkarna till högra hörnet */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li {
+  margin: 0 10px; /* Avstånd mellan länkarna */
+  font-weight: 900;
+  color: white;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white; /* Färg på länkarna */
+}
+
+nav ul li a:hover {
+  color: white; /* Färg på länkarna vid hovring */
+}
+
+img {
+  width: 80px; /* Justera logotypens storlek efter behov */
+  margin-right: 10px; /* Avstånd mellan logotypen och texten */
+}
+
+.AdminBtn {
+  margin-right: 70px;
+}
