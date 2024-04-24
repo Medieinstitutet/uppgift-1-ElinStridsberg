@@ -1,3 +1,4 @@
+
 .container{
     /* background-color: aqua; */
     margin-top: 100px;
@@ -32,10 +33,10 @@ h1 span {
     grid-template-columns: repeat(4, 2fr); 
     grid-column-start: 2;
     grid-column-end: 5;
-    grid-template-rows: 470px 500px; /* Två rader med automatisk höjd */
+    /* grid-template-rows: 470px 500px; Två rader med automatisk höjd */
 
     gap: 10px; /* Justera värdet efter behov */
-    width: 70%;
+    width: 80%;
     justify-content: center; 
     align-content: center;
     margin-top: 10px;
@@ -44,24 +45,36 @@ h1 span {
     justify-self: center;
     justify-items: center;
     margin: auto;
+    text-align: center;
+    margin-bottom: 50px;
+
 }
 
-.product{
+
+
+.product {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(196, 195, 195);
-}
-.productImg{
-    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrera innehållet vertikalt */
+    align-items: center; /* Centrera innehållet horisontellt */;
 }
 
-.buy{
+.productImg {
+    width: 100%; /* Bilden fyller hela bredden av produktdiven */
+    height: auto; /* Anpassar höjden automatiskt för att behålla bildens proportioner */
+}
+
+
+.buy {
     background-color: rgb(1, 72, 1);
     width: 80px;
-    height: 35px;
+    height: 40px;
     color: #fff;
     font-weight: 700;
-    font-size: medium;
-    
+    margin-top: 10px; /* Lägg till lite mellanrum över knappen */
+    align-self: center; /* Flytta knappen till början av produktdiven */
 }
 
 .product:hover {
@@ -76,3 +89,5 @@ h1 span {
     font-style: italic;
     font-size: smaller;
 }
+
+

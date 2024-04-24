@@ -144,13 +144,14 @@ export const Admin = () => {
 
     return (
         <div className="admin">
+              <h2>Produktlista</h2>
             <div className="adminProductList">
-                <h2>Produktlista</h2>
+              
                 {Array.isArray(products) && products.map((product, index) => (
                     <div key={index} className="product">
                         {selectedProductId === product._id ? (
                             <div>
-                                <label>Produktnamn: </label>
+                                <h6 className="productName">Produktnamn: </h6>
                                 <input
                                     type="text"
                                     value={editedProductName}
@@ -172,10 +173,11 @@ export const Admin = () => {
                             </div>
                         ) : (
                             <div>
+                                <img src={product.image} alt="" />
                                 <h1>{product.name}</h1>
                                 <p>Antal i lager: {product.amountInStock}</p>
                                 <p>Produktpris: {product.price} kr</p>
-                                <button onClick={() => handleEditClick(product._id)}>Redigera produkt</button>
+                                <button onClick={() => handleEditClick(product._id)} className="editProduct">Redigera produkt</button>
                             </div>
                         )}
                     </div>
@@ -205,16 +207,17 @@ export const Admin = () => {
                         <button onClick={handleAddProductClick}>Spara</button>
                     </div>
                 )}
-                <button onClick={addProduct}>Lägg till produkt</button>
+                </div>
+                <button onClick={addProduct} className="addProduct">Lägg till produkt</button>
 
                 {/* Visa meddelande om att produkten har lagts till */}
                 {productAddedMessage && <p>Produkten har lagts till!</p>}
-            </div>
+            
 
-            <h3>Orderhistorik: </h3>
+            <h2 className="orderName">Orderhistorik: </h2>
             <div className="order">
                 {orders && orders.map((order, index) => (
-                    <div key={index}>
+                    <div key={index} className="oneOrder">
                         <h3>Orderid: {order._id}</h3>
                         <p>orderDate: {order.orderDate}</p>
                         <p>TotalPrice: {order.totalPrice}</p>
