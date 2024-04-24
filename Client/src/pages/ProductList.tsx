@@ -1,19 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Product } from '../models/Product';
+// import { CartItem, useCart } from '../models/CartContext';
+import { useCart } from '../models/CartContext';
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    // const [cartItems, setCartItems] = useState<CartItem[]>([]); // Använd [] istället för {}
+    const { cart, addToCart } = useCart();
 
     useEffect(() => {
         const fetchProducts = async () => {
             const response = await fetch("http://localhost:3000/products");
             const data = await response.json();
-           console.log(data)
             setProducts(data);
-          
         };
         fetchProducts();
     }, []);
+
+    // const addToCart = (product: Product) => {
+    //     const newCartItem: CartItem = {
+    //         product: product,
+    //         quantity: 1 // Antalet kan justeras efter behov
+    //     };
+    //     console.log(cartItems, newCartItem)
+    //     setCartItems([...cartItems, newCartItem]);
+    // };
+    
 
     return (
         <div className='products'>
@@ -23,7 +35,7 @@ const ProductList = () => {
                     <h3>{product.name}</h3>
                     <p className='description'>{product.description}</p>
                     <p>{product.price} kr</p>
-                    <button className='buy'>KÖP </button>
+                    <button onClick={() => addToCart(product)} className='buy'>Köp</button>
                 </div>
             ))}
         </div>

@@ -55,3 +55,20 @@ img {
 .AdminBtn {
   margin-right: 70px;
 }
+
+.cart {
+  display: flex; 
+}
+
+.cart a{
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 15px;
+  right:160px;
+  background-color: black;
+}
+
+.cart svg {
+  font-size: 40px;
+  background-color: black;
+}
