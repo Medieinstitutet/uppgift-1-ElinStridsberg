@@ -1,6 +1,8 @@
 // cart.tsx
 import { useEffect } from 'react';
-import { CartItem, useCart } from '../models/CartContext'; // Importera useCart här
+import { CartItem, useCart } from '../models/CartContext'; 
+import '../styles/cart.css';
+
 
 export const Cart = () => {
     const { cart, addToCart } = useCart(); // Använd useCart här
@@ -11,7 +13,7 @@ export const Cart = () => {
             const parsedCart: CartItem[] = JSON.parse(storedCart);
             if (parsedCart.length > 0) {
                 parsedCart.forEach(item => {
-                    const productAlreadyExists = cart && cart.find(cartItem => cartItem.product.id === item.product.id);
+                    const productAlreadyExists = cart && cart.find(cartItem => cartItem.product._id === item.product._id);
                     if (!productAlreadyExists) {
                         addToCart(item.product);
                     }
@@ -22,8 +24,7 @@ export const Cart = () => {
 
     return (
         <div className='cartContent'>
-            <h2>Varukorg</h2>
-            <hr className='hr'></hr>
+            <h2 className='cartHeadline'><span>Din varukorg</span></h2>
        
             <div className='cartItems'>
             <ul>
@@ -31,14 +32,16 @@ export const Cart = () => {
                     <li key={index}>
                         
                      <img src={cartItem.product.image} className='cartImg'/>
-                      <h6>{cartItem.product.name}</h6>  
+                      <h4>{cartItem.product.name}</h4>  
+                      <p><i>{cartItem.product.description}</i></p>
                       {/* Pris: {cartItem.product.default_price.unit_amount/100} SEK. */}
                       <p>Antal: {cartItem.quantity} st.</p> 
+                      <p>Pris: {cartItem.product.price}kr</p>
                     </li>
                 ))}
             </ul>
             </div>
-               
+               <button className='pay'>Gå till kassan</button>
          </div>
      
     );

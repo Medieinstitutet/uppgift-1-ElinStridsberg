@@ -1,13 +1,13 @@
 // Importera useState och useEffect från "react" biblioteket
 import { useState, useEffect } from "react";
 import { Product } from "../models/Product";
-import { Customer, Order } from "../models/Order";
+import {  Order } from "../models/Order";
 import '../styles/admin.css';
 
 export const Admin = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
-    const [customer, setCustomer] = useState<Customer[]>([]);
+    // const [customer, setCustomer] = useState<Customer[]>([]);
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [editedProductName, setEditedProductName] = useState<string>('');
     const [editedAmountInStock, setEditedAmountInStock] = useState<number>(0);
@@ -80,12 +80,10 @@ export const Admin = () => {
                 throw new Error(`Failed to update product: ${response.statusText}`);
             }
 
-            // Hämta den uppdaterade produktlistan från API:et
             const updatedProductsResponse = await fetch("http://localhost:3000/products");
             const updatedProductsData = await updatedProductsResponse.json();
             setProducts(updatedProductsData); // Uppdatera produktlistan i state med den nya datan
 
-            // Återställ andra tillstånd och visa ett meddelande
             setSelectedProductId(null);
             setEditedProductName('');
             setEditedAmountInStock(0);
@@ -120,7 +118,6 @@ export const Admin = () => {
                 throw new Error(`Failed to add product: ${response.statusText}`);
             }
 
-            // Hämta den uppdaterade produktlistan från API:et
             const updatedProductsResponse = await fetch("http://localhost:3000/products");
             const updatedProductsData = await updatedProductsResponse.json();
             setProducts(updatedProductsData); // Uppdatera produktlistan i state med den nya datan
@@ -131,7 +128,6 @@ export const Admin = () => {
             setNewAmountInStock(0);
             setNewPrice(0);
 
-            // Visa meddelande om att produkten har lagts till
             console.log("Produkten har lagts till!");
             setProductAddedMessage(true);
             setTimeout(() => {
@@ -185,7 +181,7 @@ export const Admin = () => {
 
                 {showAddProductForm && (
                     <div>
-                        <h2>Lägg till ny produkt</h2>
+
                         <label>Produktnamn: </label>
                         <input
                             type="text"

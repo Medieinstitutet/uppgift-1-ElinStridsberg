@@ -17,15 +17,7 @@ const ProductList = () => {
         fetchProducts();
     }, []);
 
-    // const addToCart = (product: Product) => {
-    //     const newCartItem: CartItem = {
-    //         product: product,
-    //         quantity: 1 // Antalet kan justeras efter behov
-    //     };
-    //     console.log(cartItems, newCartItem)
-    //     setCartItems([...cartItems, newCartItem]);
-    // };
-    
+
 
     return (
         <div className='products'>
