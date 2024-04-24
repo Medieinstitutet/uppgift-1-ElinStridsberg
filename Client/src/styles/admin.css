@@ -24,9 +24,6 @@ h2{
     width: 100%;
 }
 
-.order{
-    border: 1px solid black;
-}
 
 .adminProductList {
     display: flex;
@@ -65,15 +62,19 @@ h2{
     align-items: center; /* Centrera elementen vertikalt */
     gap: 20px; /* Avstånd mellan elementen */
     margin-top: 150px;
-    border: none;
-    
+    margin-bottom: 50px;
+        
     
 }
 
 .oneOrder{
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(196, 195, 195);
-    width: 50%;
+    width: 30%;
+    h4{
+        margin-top: 0;
+        margin-bottom: 0px;
+    }
 }
 .orderName{
     margin-top: 70px;

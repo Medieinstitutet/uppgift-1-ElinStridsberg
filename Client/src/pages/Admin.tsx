@@ -218,13 +218,13 @@ export const Admin = () => {
             <div className="order">
                 {orders && orders.map((order, index) => (
                     <div key={index} className="oneOrder">
-                        <h3>Orderid: {order._id}</h3>
+                        <h3>{order._id}</h3>
                         <p>orderDate: {order.orderDate}</p>
                         <p>TotalPrice: {order.totalPrice}</p>
                         <p>paymentId: {order.paymentId}</p>
                         {/* Kontrollera om det finns en kund kopplad till ordern innan du försöker visa dess egenskaper */}
                         {order.customer.length > 0 && (
-                            <p>Status: {order.customer[0]._id}</p>
+                            <p>Email: {order.customer[0]._id}</p>
                         )}
                         <div>
                             <h4>Produkter i ordern:</h4>
@@ -232,13 +232,13 @@ export const Admin = () => {
                                 <div key={itemIndex}>
                                     {lineItem.product && (
                                         <>
-                                            <p>Produkt: {lineItem.product.name}</p>
+                                            <p> {lineItem.product.name}</p>
                                             <p>Antal: {lineItem.amount}</p>
                                             <p>Totalpris: {lineItem.totalPrice}</p>
                                         </>
                                     )}
                                 </div>
-                            ))}<hr></hr>
+                            ))}
                         </div>
                     </div>
                 ))}
