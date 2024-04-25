@@ -1,18 +1,24 @@
 
-.container{
-    /* background-color: aqua; */
-    margin-top: 100px;
+
+.hero{
+    background-color: rgb(237, 233, 229);
+    margin-top: 22px;
+    height: 235px;
+    display: grid;
+    grid-template-columns: repeat(3, 3fr); 
+    margin-bottom: 20px;
 }
 
 h1{
-    font-family: "Sedan", serif;
-    font-weight: 400;
-    font-style: normal;
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
     width: 100%; 
     text-align: center; 
     border-bottom: 1px solid #000; 
     line-height: 0.1em;
     margin: 10px 0 20px; 
+
 }
 
 h1 span { 
@@ -21,9 +27,12 @@ h1 span {
 }
 
 .heading{
+        font-size: 25px;
     margin-bottom: 40px;
     padding: 60px;
+    /* margin-top: 100px; */
 }
+
 .products {
     font-family: "Raleway", sans-serif;
     font-optical-sizing: auto;
@@ -33,9 +42,8 @@ h1 span {
     grid-template-columns: repeat(4, 2fr); 
     grid-column-start: 2;
     grid-column-end: 5;
-    /* grid-template-rows: 470px 500px; Två rader med automatisk höjd */
 
-    gap: 10px; /* Justera värdet efter behov */
+    gap: 10px; 
     width: 80%;
     justify-content: center; 
     align-content: center;
@@ -50,20 +58,18 @@ h1 span {
 
 }
 
-
-
 .product {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(196, 195, 195);
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrera innehållet vertikalt */
-    align-items: center; /* Centrera innehållet horisontellt */;
+    justify-content: center; 
+    align-items: center; 
 }
 
 .productImg {
-    width: 100%; /* Bilden fyller hela bredden av produktdiven */
-    height: auto; /* Anpassar höjden automatiskt för att behålla bildens proportioner */
+    width: 100%; 
+    height: auto; 
 }
 
 
@@ -73,16 +79,16 @@ h1 span {
     height: 40px;
     color: #fff;
     font-weight: 700;
-    margin-top: 10px; /* Lägg till lite mellanrum över knappen */
-    align-self: center; /* Flytta knappen till början av produktdiven */
+    margin-top: 10px; 
+    align-self: center; 
 }
 
 .product:hover {
-    border-color: black; /* Ändra ramfärgen när du hoverar över produkten */
+    border-color: black; 
 }
 
 .product:hover .buy {
-    transform: scale(1.1); /* Göra knappen större när du hoverar över produkten */
+    transform: scale(1.1); 
 }
 
 .description{
@@ -90,4 +96,30 @@ h1 span {
     font-size: smaller;
 }
 
+.pic{
+    width: 100%;
+}
 
+.text{
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-right: 25px;
+    font-size: 15px;   
+    line-height: 1.5; /* Här kan du ändra värdet för att öka eller minska avståndet mellan raderna */
+
+    padding-bottom: 0;
+    
+}
+
+.krukväxter{
+    margin-top: 50px;
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+    color: #000000;
+    font-style: normal;
+    font-size: 30px;
+    margin-bottom: 5px;
+    font-weight: 200;
+    
+}

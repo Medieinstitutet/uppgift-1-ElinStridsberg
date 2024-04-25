@@ -1,27 +1,31 @@
 nav {
-  padding: 10px;
+  padding: 23px;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #000000; /* Bakgrundsfärg för navigationsfältet */
-  z-index: 1000; /* Sätt z-index för att placera navigationen ovanpå andra element */
+  background-color: #000000; 
+  z-index: 1000; 
   display: flex;
-  justify-content: space-between; /* Placera logotypen till vänster och länkarna till höger */
-  align-items: center; /* Centrera vertikalt */
+  justify-content: space-between; 
+  align-items: center;
 }
+.logo-link {
+  color: #CFB53B; /* Färg på texten */
+  text-decoration: none; /* Ta bort understrykning */
+}
+/* 
+.logo-link:hover {
+  /* text-decoration: underline;  */
+/* } */
 
-.logo {
-  color: #FFCC00;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
+/* .logo {
+  width: 15%;
+  color: #CFB53B;
+  right: 160px;
+  box-shadow: 0px 2px 6px rgba(255, 255, 255, 0.2); 
+} */
 
-.Logo {
-  display: flex;
-  align-items: center; /* Centrera logotypen vertikalt */
-}
 
 nav ul {
   margin-left: auto; /* Flytta länkarna till högra hörnet */
@@ -54,4 +58,41 @@ img {
 
 .AdminBtn {
   margin-right: 70px;
+}
+
+.cart {
+  display: flex; 
+  color: white;
+  position: relative; /* Sätt positionen till relativ för att använda absolut positionering relativt .cart */
+  z-index: 1010; /* Öka z-index för att se till att .cart ligger över navigationsfältet */
+}
+
+.cart a{
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: -38px;
+  right:140px;
+  background-color: black;
+}
+
+.cart svg {
+  font-size: 40px;
+  background-color: black;
+}
+
+.cart p {
+  position: absolute;
+  right: -11px;
+  top: -2px;
+  background-color: rgb(16, 16, 16);
+  color: white;
+  height: 1rem;
+  width: 1rem;
+  padding: 0px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+
 }
