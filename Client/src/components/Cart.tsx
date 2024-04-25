@@ -23,6 +23,7 @@ export const Cart = () => {
     }, [cart, addToCart]); // Se till att inkludera cart och addToCart i beroendet för useEffect
 
     return (
+      
         <div className='cartContent'>
             <h2 className='cartHeadline'><span>Din varukorg</span></h2>
        
