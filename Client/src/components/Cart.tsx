@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { CartItem, useCart } from '../models/CartContext'; 
 import '../styles/cart.css';
+import { Link } from 'react-router-dom';
 
 
 export const Cart = () => {
@@ -42,7 +43,9 @@ export const Cart = () => {
                 ))}
             </ul>
             </div>
+            <Link to="./payment" >
                <button className='pay'>Gå till kassan</button>
+               </Link>
          </div>
      
     );
