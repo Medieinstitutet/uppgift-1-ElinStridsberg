@@ -27,7 +27,7 @@ export interface Customer {
 
 export interface LineItem {
     _id: string;
-    product: Product; // Referens till Product-interfacet
+    product: Product; 
     amount: string;
     order: string;
     totalPrice: number;
@@ -40,6 +40,6 @@ export interface Order {
     orderDate: string;
     status: string;
     paymentId: string | null;
-    lineItems: LineItem[]; // Array av LineItem-objekt
+    lineItems: LineItem[]; 
     linkedCustomer: Customer;
 }

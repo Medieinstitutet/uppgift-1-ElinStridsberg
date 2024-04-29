@@ -15,6 +15,8 @@ app.use(express.urlencoded());
 
 app.use(cors());
 
+
+//hämtar alla ordrar
 app.get("/orders", async (request, response) => {
 
     let orders = await DatabaseConnection.getInstance().getAllOrders();
@@ -23,7 +25,7 @@ app.get("/orders", async (request, response) => {
 }
 );
 
-
+//hämtar alla produkter
 app.get("/products", async (request, response) => {
     let products = await DatabaseConnection.getInstance().getProducts();
 
@@ -31,7 +33,7 @@ app.get("/products", async (request, response) => {
 }
 );
 
-
+//skapa order & skapar en kund?
 app.post("/create-order", async (request, response) => {
     //METODO: create customer
     let orderId = await DatabaseConnection.getInstance().saveOrder(request.body.lineItems, request.body.email);
@@ -40,7 +42,7 @@ app.post("/create-order", async (request, response) => {
 
 });
 
-
+//skapa och updatera en produkta
 app.post("/products", async (request, response) => {
 
     
@@ -51,6 +53,7 @@ app.post("/products", async (request, response) => {
 
 });
 
+//gå en på en specifik produkt
 app.post("/products/:id", async (request, response) => {
 
     let id = await DatabaseConnection.getInstance().updateProduct(request.params.id, request.body);
