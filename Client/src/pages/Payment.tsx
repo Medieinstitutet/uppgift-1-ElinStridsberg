@@ -23,18 +23,29 @@ export const Payment = () => {
         }));
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { // Lägg till typen här
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();     
-        
+    
+        const customerData = {
+            email: formData.email,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            address1: formData.address1,
+            address2: formData.address2,
+            postalCode: formData.postalCode,
+            city: formData.city,
+            country: formData.country
+        };
+    
         try {
             const response = await fetch('http://localhost:3000/create-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(customerData) // Skicka kundinformationen som JSON
             });
-       
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
@@ -44,8 +55,9 @@ export const Payment = () => {
             }
         } catch (error) {
             console.error('Något gick fel:', error);
-        }console.log(formData)
+        }
     };
+    
 
     return (
         <div className="payment">

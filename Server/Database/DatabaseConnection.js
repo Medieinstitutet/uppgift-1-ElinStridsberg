@@ -23,30 +23,37 @@ const DatabaseConnection = class {
   async saveOrder(lineItems, customer) {
     await this.connect();
 
+    if (!Array.isArray(lineItems)) {
+        throw new Error('Line items are missing or not provided as an array.');
+    }
+
     let db = this.client.db("shop");
     let collection = db.collection("orders");
 
     let result = await collection.insertOne({ 
-      "customer": customer, 
-      "orderDate":new Date(), 
-      "status": "unpaid", 
-      "totalPrice": 0,
-      "paymentId": null
+        "customer": email, 
+        "orderDate": new Date(), 
+        "status": "unpaid", 
+        "totalPrice": 0,
+        "paymentId": null
     }); 
+
     let orderId = result.insertedId;
+
     let encodedLineitems = lineItems.map((lineItem) => {
-      return {
-        "amount": lineItem["amount"],
-        "totalPrice": 0, //calculate,
-        "order": new mongodb.ObjectId(orderId),
-        "product": new mongodb.ObjectId(lineItem["product"]),
-      }
-    })
-    let lineItemsCollection = collection = db.collection("lineItems");
-    await lineItemsCollection.insertMany(encodedLineitems)
-    //todo lineItems
-   return result.insertedId;
-  }
+        return {
+            "amount": lineItem["amount"],
+            "totalPrice": 0, //calculate,
+            "order": new mongodb.ObjectId(orderId),
+            "product": new mongodb.ObjectId(lineItem["product"]),
+        }
+    });
+
+    let lineItemsCollection = db.collection("lineItems");
+    await lineItemsCollection.insertMany(encodedLineitems);
+    
+    return result.insertedId;
+}
 
     async getAllOrders() {
         await this.connect();
@@ -108,11 +115,33 @@ const DatabaseConnection = class {
 
       
     }
+    async createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country) {
+      await this.connect();
+      
+      let db = this.client.db("shop");
+      let collection = db.collection("customers");
   
-    async getOrCreateCustomer(email, name, address) {
-        // Implementation för att få eller skapa kund
-        return {"id": 1234567};
-    } 
+      let result = await collection.insertOne({
+          "_id": email,
+          "firstName": firstName,
+          "lastName": lastName,
+          "address": {
+              "address1": address1,
+              "address2": address2,
+              "postalCode": postalCode,
+              "city": city,
+              "country": country
+          }
+      });
+  
+      return result.insertedId; // Returnera den nya kundens ID
+  }
+  
+    // async getOrCreateCustomer(email, firstName, lastName, address1, address2, postalCode, city, country) {
+    //   // Implementation för att få eller skapa kund
+    //   customer = await this.createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
+    //   console.log(customer)
+    // } 
     
     async createOrder (lineItems, customer) {
         // Implementation för att skapa en order

@@ -12,6 +12,7 @@ let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
@@ -35,12 +36,24 @@ app.get("/products", async (request, response) => {
 
 //skapa order & skapar en kund?
 app.post("/create-order", async (request, response) => {
-    //METODO: create customer
-    let orderId = await DatabaseConnection.getInstance().saveOrder(request.body.lineItems, request.body.email);
+    try {
+        // Hämta data från begäran
+        const { lineItems, email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
 
-    response.json({"id": orderId});
+        // Skapa en ny kund eller hämta en befintlig kund
+        const customer = await DatabaseConnection.getInstance().createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
 
+        // Skapa ordern med den skapade kunden
+        const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, customer.id);
+
+        // Returnera orderns ID
+        response.json({ "id": orderId });
+    } catch (error) {
+        console.error("Error creating order:", error);
+        response.status(500).json({ error: "An error occurred while creating the order" });
+    }
 });
+
 
 //skapa och updatera en produkta
 app.post("/products", async (request, response) => {
