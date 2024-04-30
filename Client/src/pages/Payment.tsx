@@ -3,6 +3,7 @@ import { useCart } from '../models/CartContext';
 // import '../styles/payment.css';
 
 export const Payment = () => {
+    const checkoutItem = JSON.parse(localStorage.getItem('cart'))
     const { cart } = useCart();
     const [formData, setFormData] = useState({
         email: '',
@@ -22,10 +23,9 @@ export const Payment = () => {
             [name]: value
         }));
     };
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();     
-    
+        
         const customerData = {
             email: formData.email,
             firstName: formData.firstName,
@@ -43,12 +43,13 @@ export const Payment = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(customerData) // Skicka kundinformationen som JSON
+                body: JSON.stringify(customerData, checkoutItem) // Skicka kundinformationen som JSON
             });
     
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
+                console.log(customerData); // Flytta loggningen hit
                 // Clear cart after successful order
             } else {
                 console.error('Något gick fel');

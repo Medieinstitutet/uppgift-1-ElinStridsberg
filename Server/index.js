@@ -2,7 +2,7 @@ console.log("index.js");
 let express = require("express");
 const cors = require('cors');
 
-let DatabaseConnection = require("./Database/DataBaseConnection");
+let DatabaseConnection = require("./Database/DatabaseConnection");
 
 let url = 'mongodb://localhost:27017';
 
@@ -36,24 +36,41 @@ app.get("/products", async (request, response) => {
 
 //skapa order & skapar en kund?
 app.post("/create-order", async (request, response) => {
-    try {
+    
         // Hämta data från begäran
-        const { lineItems, email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
-
+        const {  email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
+        const {checkoutItem} = request.body
         // Skapa en ny kund eller hämta en befintlig kund
         const customer = await DatabaseConnection.getInstance().createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
 
         // Skapa ordern med den skapade kunden
-        const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, customer.id);
+        // const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, email);
 
-        // Returnera orderns ID
-        response.json({ "id": orderId });
-    } catch (error) {
-        console.error("Error creating order:", error);
-        response.status(500).json({ error: "An error occurred while creating the order" });
-    }
-});
+            try {
+                let orderId = await DatabaseConnection.getInstance().saveOrder(
+                    checkoutItem,
+                    email
+                );
+        
+                // Returnera orderns ID
+                response.json({ "id": orderId });
+            } catch (error) {
+                console.error("Error creating order:", error);
+                response.status(500).json({ error: "An error occurred while creating the order" });
+            }
+        });
+        
 
+// });
+
+//[10:12] Alinde Öst
+// router.post("/create-order", async (req, res) => {
+//     let orderId = await DatabaseConnection.getInstance().createOrder(
+//       req.body.lineItems,
+//       req.body.email
+//     );
+//     res.json({ id: orderId });
+//   });
 
 //skapa och updatera en produkta
 app.post("/products", async (request, response) => {

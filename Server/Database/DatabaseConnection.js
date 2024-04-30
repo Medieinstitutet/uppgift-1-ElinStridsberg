@@ -22,38 +22,69 @@ const DatabaseConnection = class {
 
   async saveOrder(lineItems, customer) {
     await this.connect();
-
-    if (!Array.isArray(lineItems)) {
-        throw new Error('Line items are missing or not provided as an array.');
-    }
-
+ 
     let db = this.client.db("shop");
-    let collection = db.collection("orders");
-
-    let result = await collection.insertOne({ 
-        "customer": email, 
-        "orderDate": new Date(), 
-        "status": "unpaid", 
+    let orderCollection = db.collection("orders");
+ 
+    let orderResult = await orderCollection.insertOne({
+        "customer": customer,
+        "orderDate": new Date(),
+        "status": "unpaid",
         "totalPrice": 0,
         "paymentId": null
-    }); 
-
-    let orderId = result.insertedId;
-
-    let encodedLineitems = lineItems.map((lineItem) => {
-        return {
+    });
+ 
+    let orderId = orderResult.insertedId;
+ 
+    let lineItemsCollection = db.collection("lineItems");
+ 
+    for (let lineItem of lineItems) {
+        let encodedLineitem = {
             "amount": lineItem["amount"],
             "totalPrice": 0, //calculate,
-            "order": new mongodb.ObjectId(orderId),
-            "product": new mongodb.ObjectId(lineItem["product"]),
-        }
-    });
-
-    let lineItemsCollection = db.collection("lineItems");
-    await lineItemsCollection.insertMany(encodedLineitems);
-    
-    return result.insertedId;
+            "order": orderId,
+            "product": product._id
+        };
+ 
+        await lineItemsCollection.insertOne(encodedLineitem);
+    }
+ 
+    return orderId;
 }
+//   async saveOrder(lineItems, customer) {
+//     await this.connect();
+
+//     // if (!Array.isArray(lineItems)) {
+//     //     throw new Error('Line items are missing or not provided as an array.');
+//     // }
+
+//     let db = this.client.db("shop");
+//     let collection = db.collection("orders");
+
+//     let result = await collection.insertOne({ 
+//         "customer": customer, 
+//         "orderDate": new Date(), 
+//         "status": "unpaid", 
+//         "totalPrice": 0,
+//         "paymentId": null
+//     }); 
+
+//     let orderId = result.insertedId;
+
+//     let encodedLineitems = lineItems.map((lineItem) => {
+//         return {
+//             "amount": lineItem["amount"],
+//             "totalPrice": 0, //calculate,
+//             "order": new mongodb.ObjectId(orderId),
+//             "product": new mongodb.ObjectId(lineItem["product"]),
+//         }
+//     });
+
+//     let lineItemsCollection = db.collection("lineItems");
+//     await lineItemsCollection.insertMany(encodedLineitems);
+    
+//     return result.insertedId;
+// }
 
     async getAllOrders() {
         await this.connect();
