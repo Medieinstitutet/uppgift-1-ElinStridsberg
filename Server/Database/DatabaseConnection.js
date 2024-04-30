@@ -37,7 +37,7 @@ const DatabaseConnection = class {
     let orderId = orderResult.insertedId;
  
     let lineItemsCollection = db.collection("lineItems");
- 
+    
     for (let lineItem of lineItems) {
         let encodedLineitem = {
             "amount": lineItem["amount"],

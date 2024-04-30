@@ -55,7 +55,7 @@ const CartProvider: React.FC<PropsWithChildren> = ({ children }) => {
          } else {
             const newCartItem: CartItem = {
                 product: {
-                    _id: product.id,
+                    _id: product._id,
                     name: product.name,
                     description: product.description,
                     image: product.image,

@@ -37,27 +37,24 @@ export const Payment = () => {
             country: formData.country
         };
     
-        try {
+    
             const response = await fetch('http://localhost:3000/create-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(customerData, checkoutItem) // Skicka kundinformationen som JSON
+                body: JSON.stringify(customerData) // Skicka kundinformationen som JSON
             });
     
-            if (response.ok) {
+           
                 const data = await response.json();
                 console.log(data);
                 console.log(customerData); // Flytta loggningen hit
-                // Clear cart after successful order
-            } else {
-                console.error('Något gick fel');
-            }
-        } catch (error) {
-            console.error('Något gick fel:', error);
+                console.log(checkoutItem)
+                // Clear cart after successful order 
+      
         }
-    };
+    
     
 
     return (
