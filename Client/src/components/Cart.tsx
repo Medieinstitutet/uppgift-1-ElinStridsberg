@@ -38,7 +38,7 @@ export const Cart = () => {
                       <p><i>{cartItem.product.description}</i></p>
                       {/* Pris: {cartItem.product.default_price.unit_amount/100} SEK. */}
                       <p>Antal: {cartItem.quantity} st.</p> 
-                      <p>Pris: {cartItem.product.price}kr</p>
+                      <p>Pris: {cartItem.product.price}:- st</p>
                     </li>
                 ))}
             </ul>

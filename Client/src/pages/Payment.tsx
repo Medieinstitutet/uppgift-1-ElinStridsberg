@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../models/CartContext';
-// import '../styles/payment.css';
+import '../styles/payment.css';
 
 export const Payment = () => {
     const checkoutItem = JSON.parse(localStorage.getItem('cart'))
@@ -60,22 +60,26 @@ export const Payment = () => {
     
 
     return (
+        <>  <h2>Din varukorg</h2>
         <div className="payment">
-            <h2>Din varukorg</h2>
+          <div className='orderItemes'>
             <ul>
                 {cart.map((cartItem, index) => (
-                    <li key={index}>
-                        <img src={cartItem.product.image} alt={cartItem.product.name} />
+                    <li key={index} className='productListCart'>
+                        <img src={cartItem.product.image} alt={cartItem.product.name} className='paymentImg' />
+                        <div className='orderInfo'>
                         <h4>{cartItem.product.name}</h4>
-                        <p>{cartItem.product.description}</p>
+                        {/* <p>{cartItem.product.description}</p> */}
                         <p>Antal: {cartItem.quantity}</p>
-                        <p>Pris: {cartItem.product.price}kr</p>
+                        <p>Pris: {cartItem.product.price}kr</p></div>
                     </li>
                 ))}
             </ul>
-
-
+</div>
+                <div className='orderForm'> 
+                <h3>Vänligen fyll i dina uppgifter nedan: </h3>
             <form onSubmit={handleSubmit}>
+               
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
                 <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Förnamn" required />
                 <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Efternamn" required />
@@ -88,5 +92,7 @@ export const Payment = () => {
                 <button type="submit">Betala</button>
             </form>
         </div>
+        </div>
+        </>
     );
 };
