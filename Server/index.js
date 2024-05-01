@@ -38,8 +38,22 @@ app.get("/products", async (request, response) => {
 app.post("/create-order", async (request, response) => {
     // Hämta data från begäran
     const { email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
-    const lineItems = {checkoutItem} = request.body
- 
+    const lineItems = request.body.lineItems;
+
+    console.log("Full request body:", request.body);
+
+    // Logga ut lineItems från begäran (req.body.lineItems)
+    console.log("Line items from request body:", request.body.lineItems);
+
+    // Kör forEach på lineItems om det är en array
+    if (Array.isArray(request.body.lineItems)) {
+        request.body.lineItems.forEach((item, index) => {
+            console.log(`Line item ${index + 1}:`, item);
+        });
+    } else {
+        console.log("Line items are not provided as an array.");
+    }
+    console.log(lineItems)
     try {
         // Skapa en ny kund eller hämta en befintlig kund
         const customer = await DatabaseConnection.getInstance().createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
@@ -52,9 +66,9 @@ app.post("/create-order", async (request, response) => {
         const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, email);
  
         // Returnera orderns ID
-        response.json({ "id": orderId });
+        response.json({ "id": orderId }); 
     } catch (error) {
-        console.error("Error creating order:", error);
+        console.error("Error creating order:", error); 
         response.status(500).json({ error: "An error occurred while creating the order" });
     }
 });

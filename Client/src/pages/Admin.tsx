@@ -38,10 +38,12 @@ export const Admin = () => {
         const fetchOrders = async () => {
             try {
                 const response = await fetch("http://localhost:3000/orders");
+                
                 if (!response.ok) {
                     throw new Error(`Failed to fetch orders: ${response.statusText}`);
                 }
                 const data = await response.json();
+                console.log(data)
                 setOrders(data);
             } catch (error) {
                 console.error("Error fetching orders:", error);
@@ -209,32 +211,32 @@ export const Admin = () => {
                 {/* Visa meddelande om att produkten har lagts till */}
                 {productAddedMessage && <p>Produkten har lagts till!</p>}
             
-
-            <h2 className="orderName">Orderhistorik: </h2>
+                <h2 className="orderName">Orderhistorik: </h2>
             <div className="order">
                 {orders && orders.map((order, index) => (
                     <div key={index} className="oneOrder">
-                        <h3>{order._id}</h3>
+                        <h3>Orderid: {order._id}</h3>
                         <p>orderDate: {order.orderDate}</p>
                         <p>TotalPrice: {order.totalPrice}</p>
                         <p>paymentId: {order.paymentId}</p>
                         {/* Kontrollera om det finns en kund kopplad till ordern innan du försöker visa dess egenskaper */}
                         {order.customer.length > 0 && (
-                            <p>Email: {order.customer[0]._id}</p>
+                            <p>Status: {order.customer[0]._id}</p>
                         )}
                         <div>
                             <h4>Produkter i ordern:</h4>
                             {order.lineItems.map((lineItem, itemIndex) => (
+                              
                                 <div key={itemIndex}>
                                     {lineItem.product && (
                                         <>
-                                            <p> {lineItem.product.name}</p>
+                                            <p>Produkt: {lineItem.product.name}</p>
                                             <p>Antal: {lineItem.amount}</p>
                                             <p>Totalpris: {lineItem.totalPrice}</p>
                                         </>
                                     )}
                                 </div>
-                            ))}
+                            ))}<hr></hr>
                         </div>
                     </div>
                 ))}

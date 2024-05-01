@@ -34,7 +34,9 @@ export const Payment = () => {
             address2: formData.address2,
             postalCode: formData.postalCode,
             city: formData.city,
-            country: formData.country
+            country: formData.country,
+            lineItems: checkoutItem // Inkludera varukorgens innehåll här
+
         };
     
     

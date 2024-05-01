@@ -45,6 +45,7 @@ export const Cart = () => {
             </div>
             <Link to="./payment" >
                <button className='pay'>Gå till kassan</button>
+               
                </Link>
          </div>
      

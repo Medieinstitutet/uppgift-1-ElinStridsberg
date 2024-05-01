@@ -39,15 +39,15 @@ const DatabaseConnection = class {
     let lineItemsCollection = db.collection("lineItems");
     
     for (let lineItem of lineItems) {
-        let encodedLineitem = {
-            "amount": lineItem["amount"],
-            "totalPrice": 0, //calculate,
-            "order": orderId,
-            "product": product._id
-        };
- 
-        await lineItemsCollection.insertOne(encodedLineitem);
-    }
+      let encodedLineitem = {
+          "amount": lineItem["amount"],
+          "totalPrice": 0, //calculate,
+          "order": orderId,
+          "product": lineItem.product // Använd lineItem.product istället för product._id
+      };
+  
+      await lineItemsCollection.insertOne(encodedLineitem);
+  }
  
     return orderId;
 }
@@ -141,11 +141,12 @@ const DatabaseConnection = class {
         for await(let document of documents) {
           returnArray.push(document);
        }
-        return returnArray
+        return returnArray 
 
 
       
     }
+
     async createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country) {
       await this.connect();
       
@@ -174,10 +175,10 @@ const DatabaseConnection = class {
     //   console.log(customer)
     // } 
     
-    async createOrder (lineItems, customer) {
-        // Implementation för att skapa en order
-        return {"id": "order1234567"};
-    }
+    // async createOrder (lineItems, customer) {
+    //     // Implementation för att skapa en order
+    //     return {"id": "order1234567"};
+    // }
 
 
 async createProduct() {
@@ -247,8 +248,8 @@ async getProducts () {
     if (instance === null) {
       instance = new DatabaseConnection();
     }
-    return instance;
+    return instance; 
   }
 };
 
-module.exports = DatabaseConnection;
+module.exports = DatabaseConnection; 
