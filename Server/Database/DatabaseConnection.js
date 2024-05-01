@@ -37,15 +37,21 @@ const DatabaseConnection = class {
     let orderId = orderResult.insertedId;
  
     let lineItemsCollection = db.collection("lineItems");
-    
-    for (let lineItem of lineItems) {
+
+    for (let lineItem of lineItems) {  
+      let totalPrice = lineItem.product.price * lineItem.quantity;
       let encodedLineitem = {
           "quantity": lineItem.quantity,
-          "totalPrice": 0, //calculate,
+          "totalPrice": totalPrice ,//calculate,
           "order": orderId,
           "product": lineItem.product // Använd lineItem.product istället för product._id
       };
-  
+    
+      console.log("Total price:", totalPrice);
+
+      // console.log(lineItem)
+      // console.log(lineItem.product.price)
+      // console.log(lineItem.quantity)
       await lineItemsCollection.insertOne(encodedLineitem);
   }
  
