@@ -40,7 +40,7 @@ const DatabaseConnection = class {
     
     for (let lineItem of lineItems) {
       let encodedLineitem = {
-          "amount": lineItem["amount"],
+          "quantity": lineItem.quantity,
           "totalPrice": 0, //calculate,
           "order": orderId,
           "product": lineItem.product // Använd lineItem.product istället för product._id
