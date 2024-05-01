@@ -31,7 +31,8 @@ const DatabaseConnection = class {
         "orderDate": new Date(),
         "status": "unpaid",
         "totalPrice": 0,
-        "paymentId": null
+        "paymentId": null,
+        "lineItems": [] 
     });
  
     let orderId = orderResult.insertedId;
@@ -53,6 +54,10 @@ const DatabaseConnection = class {
       // console.log(lineItem.product.price)
       // console.log(lineItem.quantity)
       await lineItemsCollection.insertOne(encodedLineitem);
+      await orderCollection.updateOne(
+        { "_id": orderId },
+        { "$push": { "lineItems": encodedLineitem } }
+    );
   }
  
     return orderId;

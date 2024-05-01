@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import { Product } from "../models/Product";
 import {  Order } from "../models/Order";
 import '../styles/admin.css';
+import { Cart } from "../components/Cart";
 
 export const Admin = () => {
+
+
+    
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
     // const [customer, setCustomer] = useState<Customer[]>([]);
@@ -35,6 +39,7 @@ export const Admin = () => {
     }, []);
 
     useEffect(() => {
+       
         const fetchOrders = async () => {
             try {
                 const response = await fetch("http://localhost:3000/orders");
@@ -43,13 +48,15 @@ export const Admin = () => {
                     throw new Error(`Failed to fetch orders: ${response.statusText}`);
                 }
                 const data = await response.json();
-                console.log(data)
                 setOrders(data);
+                console.log(data)
+                
             } catch (error) {
                 console.error("Error fetching orders:", error);
             }
         };
         fetchOrders();
+       
     }, []);
 
     const handleEditClick = (productId: string) => {
@@ -140,6 +147,9 @@ export const Admin = () => {
         }
     }
 
+   // För att kontrollera lineItems innehåll innan renderingen
+   console.log(orders); // Logga orders utanför return-instruktionen för att kontrollera dess innehåll
+
     return (
         <div className="admin">
               <h2>Produktlista</h2>
@@ -218,26 +228,27 @@ export const Admin = () => {
                         <h3>Orderid: {order._id}</h3>
                         <p>orderDate: {order.orderDate}</p>
                         <p>TotalPrice: {order.totalPrice}</p>
-                        <p>paymentId: {order.paymentId}</p>
+                     
+                      
                         {/* Kontrollera om det finns en kund kopplad till ordern innan du försöker visa dess egenskaper */}
                         {order.customer.length > 0 && (
-                            <p>Status: {order.customer[0]._id}</p>
+                            <p>Kund: {order.customer[0]._id}</p>
                         )}
                         <div>
-                            <h4>Produkter i ordern:</h4>
-                            {order.lineItems.map((lineItem, itemIndex) => (
-                              
-                                <div key={itemIndex}>
-                                    {lineItem.product && (
-                                        <>
-                                            <p>Produkt: {lineItem.product.name}</p>
-                                            <p>Antal: {lineItem.amount}</p>
-                                            <p>Totalpris: {lineItem.totalPrice}</p>
-                                        </>
-                                    )}
-                                </div>
-                            ))}<hr></hr>
-                        </div>
+                        <h4>Produkter i ordern:</h4>
+    {order.lineItems.map((lineItem, itemIndex) => (
+        <div key={itemIndex}>
+            
+            {lineItem.product && (
+                <>
+                    <p>Produkt: {lineItem.product.name}</p>
+                    <p>Antal: {lineItem.amount}</p>
+                    <p>Totalpris: {lineItem.totalPrice}</p>
+                </>
+            )}
+        </div>
+                            ))}
+                 </div>
                     </div>
                 ))}
             </div>
