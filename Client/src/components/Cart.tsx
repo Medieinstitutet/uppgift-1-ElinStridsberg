@@ -22,7 +22,7 @@ export const Cart = () => {
             }
         }
     }, [cart, addToCart]); // Se till att inkludera cart och addToCart i beroendet för useEffect
-
+    console.log(cart)
     return (
       
         <div className='cartContent'>

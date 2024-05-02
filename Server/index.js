@@ -23,6 +23,7 @@ app.get("/orders", async (request, response) => {
     let orders = await DatabaseConnection.getInstance().getAllOrders();
 
     response.json(orders);
+    console.log(orders)
 }
 );
 

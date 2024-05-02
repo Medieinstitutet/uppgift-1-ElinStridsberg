@@ -1,17 +1,13 @@
 // Importera useState och useEffect från "react" biblioteket
 import { useState, useEffect } from "react";
 import { Product } from "../models/Product";
-import {  Order } from "../models/Order";
+import { Order } from "../models/Order";
 import '../styles/admin.css';
 import { Cart } from "../components/Cart";
 
 export const Admin = () => {
-
-
-    
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
-    // const [customer, setCustomer] = useState<Customer[]>([]);
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [editedProductName, setEditedProductName] = useState<string>('');
     const [editedAmountInStock, setEditedAmountInStock] = useState<number>(0);
@@ -30,6 +26,7 @@ export const Admin = () => {
                     throw new Error(`Failed to fetch products: ${response.statusText}`);
                 }
                 const data = await response.json();
+                // console.log(data)
                 setProducts(data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -37,25 +34,22 @@ export const Admin = () => {
         };
         fetchProducts();
     }, []);
-
+//order.lineItems, ser du till att lineItems faktiskt innehåller data när det renderas. Du kan också kolla om lineItem.product innehåller data och att den har en name-egenskap.
     useEffect(() => {
-       
         const fetchOrders = async () => {
             try {
                 const response = await fetch("http://localhost:3000/orders");
-                
                 if (!response.ok) {
                     throw new Error(`Failed to fetch orders: ${response.statusText}`);
                 }
                 const data = await response.json();
                 setOrders(data);
-                
+                console.log(data)
             } catch (error) {
                 console.error("Error fetching orders:", error);
             }
         };
         fetchOrders();
-       
     }, []);
 
     const handleEditClick = (productId: string) => {
@@ -90,7 +84,7 @@ export const Admin = () => {
 
             const updatedProductsResponse = await fetch("http://localhost:3000/products");
             const updatedProductsData = await updatedProductsResponse.json();
-            setProducts(updatedProductsData); // Uppdatera produktlistan i state med den nya datan
+            setProducts(updatedProductsData);
 
             setSelectedProductId(null);
             setEditedProductName('');
@@ -128,7 +122,7 @@ export const Admin = () => {
 
             const updatedProductsResponse = await fetch("http://localhost:3000/products");
             const updatedProductsData = await updatedProductsResponse.json();
-            setProducts(updatedProductsData); // Uppdatera produktlistan i state med den nya datan
+            setProducts(updatedProductsData);
 
             setShowAddProductForm(false);
 
@@ -146,14 +140,18 @@ export const Admin = () => {
         }
     }
 
-   // För att kontrollera lineItems innehåll innan renderingen
-   console.log(orders); // Logga orders utanför return-instruktionen för att kontrollera dess innehåll
+    const safeOutput = (text) => {
+        if (text === null || typeof text !== "object") {
+            return text;
+        }
+
+        return JSON.stringify(text);
+    };
 
     return (
         <div className="admin">
-              <h2>Produktlista</h2>
+            <h2>Produktlista</h2>
             <div className="adminProductList">
-              
                 {Array.isArray(products) && products.map((product, index) => (
                     <div key={index} className="product">
                         {selectedProductId === product._id ? (
@@ -192,7 +190,6 @@ export const Admin = () => {
 
                 {showAddProductForm && (
                     <div>
-
                         <label>Produktnamn: </label>
                         <input
                             type="text"
@@ -214,40 +211,37 @@ export const Admin = () => {
                         <button onClick={handleAddProductClick}>Spara</button>
                     </div>
                 )}
-                </div>
-                <button onClick={addProduct} className="addProduct">Lägg till produkt</button>
+            </div>
+            <button onClick={addProduct} className="addProduct">Lägg till produkt</button>
 
-                {/* Visa meddelande om att produkten har lagts till */}
-                {productAddedMessage && <p>Produkten har lagts till!</p>}
-            
-                <h2 className="orderName">Orderhistorik: </h2>
+            {productAddedMessage && <p>Produkten har lagts till!</p>}
+
+            <h2 className="orderName">Orderhistorik: </h2>
             <div className="order">
-                {orders && orders.map((order, index) => (
-                    <div key={index} className="oneOrder">
-                        <h3>Orderid: {order._id}</h3>
-                        <p>orderDate: {order.orderDate}</p>
-                        <p>TotalPrice: {order.totalPrice}</p>
+                {orders.map((order, index) => (
+                    <div key={index} className="perOrder">
+                        <p><b>Order ID: </b>{safeOutput(order._id)}</p>
+                        <p> <b>Email: </b>{order.linkedCustomer._id}</p>
+                        <p><b>Orderdatum: </b>{safeOutput(order.orderDate)}</p>
+                        <p><b>Pris: </b>{safeOutput(order.totalPrice)}</p>
                      
-                      
-                        {/* Kontrollera om det finns en kund kopplad till ordern innan du försöker visa dess egenskaper */}
-                        {order.customer.length > 0 && (
-                            <p>Kund: {order.customer[0]._id}</p>
-                        )}
-                        <div>
-                        <h4>Produkter i ordern:</h4>
-    {order.lineItems.map((lineItem, itemIndex) => (
-        <div key={itemIndex}>
-            
-            {lineItem.product && (
-                <>
-                    <p>Produkt: {lineItem.product.name}</p>
-                    <p>Antal: {lineItem.amount}</p>
-                    <p>Totalpris: {lineItem.totalPrice}</p>
-                </>
-            )}
-        </div>
-                            ))}
-                 </div>
+
+                        <h3>Products in Order:</h3>
+                        <ul>
+ {/* {console.log("Line Items:", order.lineItems)}     */}
+ 
+ {order.lineItems.map((lineItem, lineIndex) => (
+        <li key={lineIndex} className="lilineItems">
+            {/* <p><b>Produkt: {lineItem._id}</b></p>
+            <p><b>ID:</b> {safeOutput(lineItem.product._id)}</p> */}
+             <p><b>Produkt: </b> {safeOutput(lineItem.product.name)}</p>
+            <p><b>Antal: </b>: {safeOutput(lineItem.quantity)}</p>
+            <p><b>Totalt: </b> {safeOutput(lineItem.totalPrice)}</p>
+            {/* {console.log("test", (order.lineItems.id))}     */}
+        </li>
+    ))}
+</ul>
+
                     </div>
                 ))}
             </div>

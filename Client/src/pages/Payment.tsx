@@ -15,7 +15,6 @@ export const Payment = () => {
         city: '',
         country: ''
     });
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { // Lägg till typen här
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -50,7 +49,7 @@ export const Payment = () => {
     
            
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 console.log(customerData); // Flytta loggningen hit
                 console.log(checkoutItem)
                 // Clear cart after successful order 

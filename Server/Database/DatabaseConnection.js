@@ -19,49 +19,46 @@ const DatabaseConnection = class {
 
     await this.client.connect();
   }
-
   async saveOrder(lineItems, customer) {
     await this.connect();
- 
+  
     let db = this.client.db("shop");
     let orderCollection = db.collection("orders");
- 
+  
     let orderResult = await orderCollection.insertOne({
-        "customer": customer,
-        "orderDate": new Date(),
-        "status": "unpaid",
-        "totalPrice": 0,
-        "paymentId": null,
-        "lineItems": [] 
+      "customer": customer,
+      "orderDate": new Date(),
+      "status": "unpaid",
+      "totalPrice": 0,
+      "paymentId": null,
+      "lineItems": [] 
     });
- 
+  
     let orderId = orderResult.insertedId;
- 
+  
     let lineItemsCollection = db.collection("lineItems");
+  for (let lineItem of lineItems) {  
+  let totalPrice = lineItem.product.price * lineItem.quantity;
+  let encodedLineitem = {
+    "quantity": lineItem.quantity,
+    "totalPrice": totalPrice,
+    "order": orderId,
+    "product": lineItem.product,
+    // "productName": lineItem.product.name // Lägg till namnet på produkten här
+  };
 
-    for (let lineItem of lineItems) {  
-      let totalPrice = lineItem.product.price * lineItem.quantity;
-      let encodedLineitem = {
-          "quantity": lineItem.quantity,
-          "totalPrice": totalPrice ,//calculate,
-          "order": orderId,
-          "product": lineItem.product // Använd lineItem.product istället för product._id
-      };
-    
-      console.log("Total price:", totalPrice);
+  console.log("Total price:", totalPrice);
 
-      // console.log(lineItem)
-      // console.log(lineItem.product.price)
-      // console.log(lineItem.quantity)
-      await lineItemsCollection.insertOne(encodedLineitem);
-      await orderCollection.updateOne(
-        { "_id": orderId },
-        { "$push": { "lineItems": encodedLineitem } }
-    );
-  }
- 
-    return orderId;
+  await lineItemsCollection.insertOne(encodedLineitem);
+  await orderCollection.updateOne(
+    { "_id": orderId },
+    { "$push": { "lineItems": encodedLineitem } }
+  );
 }
+
+  
+    return orderId;
+  }
 //   async saveOrder(lineItems, customer) {
 //     await this.connect();
 
@@ -102,7 +99,6 @@ const DatabaseConnection = class {
         
         let db = this.client.db('shop');
         let collection = db.collection('orders');
-        
         let pipeline = [
           {
             $lookup: {
@@ -110,23 +106,6 @@ const DatabaseConnection = class {
               localField: "_id",
               foreignField: "order",
               as: "lineItems",
-              pipeline: [
-          {
-            $lookup: {
-              from: "products",
-              localField: "product",
-              foreignField: "_id",
-              as: "product",
-            },
-          },
-          {
-            $addFields: {
-              product: {
-                $first: "$product",
-              },
-            },
-          },
-        ]
             },
           },
           {
@@ -145,7 +124,49 @@ const DatabaseConnection = class {
             },
           },
         ]
-        
+        // let pipeline = ['
+        //   {
+        //     $lookup: {
+        //       from: "lineItems",
+        //       localField: "_id",
+        //       foreignField: "order",
+        //       as: "lineItems",
+        //       pipeline: [
+        //         {
+        //           $lookup: {
+        //             from: "products",
+        //             localField: "products",
+        //             foreignField: "id",
+        //             as: "product",
+        //           },
+        //         },
+        //         {
+        //           $addFields: {
+        //             product: {
+        //               $first: "$product",
+        //             },
+        //           },
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   {
+        //     $lookup: {
+        //       from: "customers",
+        //       localField: "customer",
+        //       foreignField: "_id",
+        //       as: "customer",
+        //     },
+        //   },
+        //   {
+        //     $addFields: {
+        //       linkedCustomer: {
+        //         $first: "$customer",
+        //       },
+        //     },
+        //   },
+        // ]
+        // '
         let documents = collection.aggregate(pipeline)
         let returnArray = [];
        
