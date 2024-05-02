@@ -5,6 +5,7 @@ import ProductList from "./pages/ProductList";
 import { Layout } from "./pages/Layout";
 import { NotFound } from "./pages/NorFound";
 import { Cart } from "./components/Cart";
+import { Payment } from "./pages/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />
+      },
+      {
+        path: "cart/payment",
+        element: <Payment />
       }
       
     ],

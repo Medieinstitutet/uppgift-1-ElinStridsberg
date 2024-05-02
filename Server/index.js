@@ -2,7 +2,7 @@ console.log("index.js");
 let express = require("express");
 const cors = require('cors');
 
-let DatabaseConnection = require("./Database/DataBaseConnection");
+let DatabaseConnection = require("./Database/DatabaseConnection");
 
 let url = 'mongodb://localhost:27017';
 
@@ -12,6 +12,7 @@ let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
@@ -22,6 +23,7 @@ app.get("/orders", async (request, response) => {
     let orders = await DatabaseConnection.getInstance().getAllOrders();
 
     response.json(orders);
+    console.log(orders)
 }
 );
 
@@ -35,12 +37,76 @@ app.get("/products", async (request, response) => {
 
 //skapa order & skapar en kund?
 app.post("/create-order", async (request, response) => {
-    //METODO: create customer
-    let orderId = await DatabaseConnection.getInstance().saveOrder(request.body.lineItems, request.body.email);
+    // Hämta data från begäran
+    const { email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
+    const lineItems = request.body.lineItems;
 
-    response.json({"id": orderId});
+    console.log("Full request body:", request.body);
 
+    // Logga ut lineItems från begäran (req.body.lineItems)
+    console.log("Line items from request body:", request.body.lineItems);
+
+    // Kör forEach på lineItems om det är en array
+    if (Array.isArray(request.body.lineItems)) {
+        request.body.lineItems.forEach((item, index) => {
+            console.log(`Line item ${index + 1}:`, item);
+        });
+    } else {
+        console.log("Line items are not provided as an array.");
+    }
+    console.log(lineItems)
+    try {
+        // Skapa en ny kund eller hämta en befintlig kund
+        const customer = await DatabaseConnection.getInstance().createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
+        // Skapa lineitems från cartitems
+        // const lineItems = checkoutItem.map(item => ({
+        //     amount: item.quantity,
+        //     product: item.product._id // Antag att 'product' är ID för produkten
+        // }));
+        // Skapa ordern med den skapade kunden och lineitems
+        const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, email);
+ 
+        // Returnera orderns ID
+        response.json({ "id": orderId }); 
+    } catch (error) {
+        console.error("Error creating order:", error); 
+        response.status(500).json({ error: "An error occurred while creating the order" });
+    }
 });
+// app.post("/create-order", async (request, response) => {
+    
+//         // Hämta data från begäran
+//         const {  email, firstName, lastName, address1, address2, postalCode, city, country } = request.body;
+//         const {checkoutItem} = request.body
+//         // Skapa en ny kund eller hämta en befintlig kund
+//         const customer = await DatabaseConnection.getInstance().createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
+
+//         // Skapa ordern med den skapade kunden
+//         // const orderId = await DatabaseConnection.getInstance().saveOrder(lineItems, email);
+
+            
+//                 let orderId = await DatabaseConnection.getInstance().saveOrder(
+//                     checkoutItem,
+//                     email,
+            
+        
+//                 // Returnera orderns ID
+//                 response.json({ "id": orderId })
+     
+//         );
+//     }
+// )
+
+// });
+
+//[10:12] Alinde Öst
+// router.post("/create-order", async (req, res) => {
+//     let orderId = await DatabaseConnection.getInstance().createOrder(
+//       req.body.lineItems,
+//       req.body.email
+//     );
+//     res.json({ id: orderId });
+//   });
 
 //skapa och updatera en produkta
 app.post("/products", async (request, response) => {

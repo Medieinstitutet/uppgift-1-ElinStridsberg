@@ -31,6 +31,7 @@ export interface LineItem {
     amount: string;
     order: string;
     totalPrice: number;
+    
 }
 
 export interface Order {

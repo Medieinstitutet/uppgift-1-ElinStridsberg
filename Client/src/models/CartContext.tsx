@@ -43,7 +43,7 @@ const CartProvider: React.FC<PropsWithChildren> = ({ children }) => {
             return;
         }
     
-        console.log('Added to cart:', product.name); 
+        console.log('Added to cart:', product.name, product._id); 
         const productAlreadyExists = cart.find(item => item.product._id === product._id);
         
         if (productAlreadyExists) {
@@ -55,7 +55,7 @@ const CartProvider: React.FC<PropsWithChildren> = ({ children }) => {
          } else {
             const newCartItem: CartItem = {
                 product: {
-                    _id: product.id,
+                    _id: product._id,
                     name: product.name,
                     description: product.description,
                     image: product.image,

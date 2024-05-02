@@ -1,0 +1,78 @@
+h2{
+    margin-top: 150px;
+    
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+}
+
+.payment{
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, 2fr); 
+    grid-column-start: 2;
+    grid-column-end: 5;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+.orderItemes{
+}
+
+.productListCart{
+    display: grid;
+    grid-template-columns: repeat(2, 2fr); 
+    gap:-20px;
+    margin-bottom: 7px;
+
+ 
+}
+
+.paymentImg{
+    grid-column-start: 1;
+    grid-column-end: 2;;
+    width: 80%
+    
+}
+
+.orderInfo{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: left;
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    color: #000000;
+}
+.orderForm {
+    display: flex;
+    flex-direction: column; /* Visa elementen i kolumnlayout */
+    gap: 10px; /* Avstånd mellan elementen */ 
+    margin-top: 0px;
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    color: #000000;
+}
+
+/* Få varje input att täcka hela bredden */
+.orderForm input {
+   padding: 5px;
+   margin-bottom: 3px;
+    width: 90%;
+}
+
+button{
+   /* display: flex;
+margin: 0 auto; */
+
+    background-color: rgb(1, 72, 1);
+    width: 80px;
+    height: 40px;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 10px; 
+    align-self: center; 
+}
+
+.button:hover {
+    border-color: black; 
+}
+

@@ -19,41 +19,86 @@ const DatabaseConnection = class {
 
     await this.client.connect();
   }
-
   async saveOrder(lineItems, customer) {
     await this.connect();
-
+  
     let db = this.client.db("shop");
-    let collection = db.collection("orders");
-
-    let result = await collection.insertOne({ 
-      "customer": customer, 
-      "orderDate":new Date(), 
-      "status": "unpaid", 
+    let orderCollection = db.collection("orders");
+  
+    let orderResult = await orderCollection.insertOne({
+      "customer": customer,
+      "orderDate": new Date(),
+      "status": "unpaid",
       "totalPrice": 0,
-      "paymentId": null
-    }); 
-    let orderId = result.insertedId;
-    let encodedLineitems = lineItems.map((lineItem) => {
-      return {
-        "amount": lineItem["amount"],
-        "totalPrice": 0, //calculate,
-        "order": new mongodb.ObjectId(orderId),
-        "product": new mongodb.ObjectId(lineItem["product"]),
-      }
-    })
-    let lineItemsCollection = collection = db.collection("lineItems");
-    await lineItemsCollection.insertMany(encodedLineitems)
-    //todo lineItems
-   return result.insertedId;
+      "paymentId": null,
+      "lineItems": [] 
+    });
+  
+    let orderId = orderResult.insertedId;
+  
+    let lineItemsCollection = db.collection("lineItems");
+  for (let lineItem of lineItems) {  
+  let totalPrice = lineItem.product.price * lineItem.quantity;
+  let encodedLineitem = {
+    "quantity": lineItem.quantity,
+    "totalPrice": totalPrice,
+    "order": orderId,
+    "product": lineItem.product,
+    // "productName": lineItem.product.name // Lägg till namnet på produkten här
+  };
+
+  console.log("Total price:", totalPrice);
+
+  await lineItemsCollection.insertOne(encodedLineitem);
+  await orderCollection.updateOne(
+    { "_id": orderId },
+    { "$push": { "lineItems": encodedLineitem } }
+  );
+}
+
+  
+    return orderId;
   }
+//   async saveOrder(lineItems, customer) {
+//     await this.connect();
+
+//     // if (!Array.isArray(lineItems)) {
+//     //     throw new Error('Line items are missing or not provided as an array.');
+//     // }
+
+//     let db = this.client.db("shop");
+//     let collection = db.collection("orders");
+
+//     let result = await collection.insertOne({ 
+//         "customer": customer, 
+//         "orderDate": new Date(), 
+//         "status": "unpaid", 
+//         "totalPrice": 0,
+//         "paymentId": null
+//     }); 
+
+//     let orderId = result.insertedId;
+
+//     let encodedLineitems = lineItems.map((lineItem) => {
+//         return {
+//             "amount": lineItem["amount"],
+//             "totalPrice": 0, //calculate,
+//             "order": new mongodb.ObjectId(orderId),
+//             "product": new mongodb.ObjectId(lineItem["product"]),
+//         }
+//     });
+
+//     let lineItemsCollection = db.collection("lineItems");
+//     await lineItemsCollection.insertMany(encodedLineitems);
+    
+//     return result.insertedId;
+// }
 
     async getAllOrders() {
         await this.connect();
         
         let db = this.client.db('shop');
         let collection = db.collection('orders');
-        
         let pipeline = [
           {
             $lookup: {
@@ -61,23 +106,6 @@ const DatabaseConnection = class {
               localField: "_id",
               foreignField: "order",
               as: "lineItems",
-              pipeline: [
-          {
-            $lookup: {
-              from: "products",
-              localField: "product",
-              foreignField: "_id",
-              as: "product",
-            },
-          },
-          {
-            $addFields: {
-              product: {
-                $first: "$product",
-              },
-            },
-          },
-        ]
             },
           },
           {
@@ -96,28 +124,93 @@ const DatabaseConnection = class {
             },
           },
         ]
-        
+        // let pipeline = ['
+        //   {
+        //     $lookup: {
+        //       from: "lineItems",
+        //       localField: "_id",
+        //       foreignField: "order",
+        //       as: "lineItems",
+        //       pipeline: [
+        //         {
+        //           $lookup: {
+        //             from: "products",
+        //             localField: "products",
+        //             foreignField: "id",
+        //             as: "product",
+        //           },
+        //         },
+        //         {
+        //           $addFields: {
+        //             product: {
+        //               $first: "$product",
+        //             },
+        //           },
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   {
+        //     $lookup: {
+        //       from: "customers",
+        //       localField: "customer",
+        //       foreignField: "_id",
+        //       as: "customer",
+        //     },
+        //   },
+        //   {
+        //     $addFields: {
+        //       linkedCustomer: {
+        //         $first: "$customer",
+        //       },
+        //     },
+        //   },
+        // ]
+        // '
         let documents = collection.aggregate(pipeline)
         let returnArray = [];
        
         for await(let document of documents) {
           returnArray.push(document);
        }
-        return returnArray
+        return returnArray 
 
 
       
     }
+
+    async createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country) {
+      await this.connect();
+      
+      let db = this.client.db("shop");
+      let collection = db.collection("customers");
   
-    async getOrCreateCustomer(email, name, address) {
-        // Implementation för att få eller skapa kund
-        return {"id": 1234567};
-    } 
+      let result = await collection.insertOne({
+          "_id": email,
+          "firstName": firstName,
+          "lastName": lastName,
+          "address": {
+              "address1": address1,
+              "address2": address2,
+              "postalCode": postalCode,
+              "city": city,
+              "country": country
+          }
+      });
+  
+      return result.insertedId; // Returnera den nya kundens ID
+  }
+  
+    // async getOrCreateCustomer(email, firstName, lastName, address1, address2, postalCode, city, country) {
+    //   // Implementation för att få eller skapa kund
+    //   customer = await this.createCustomer(email, firstName, lastName, address1, address2, postalCode, city, country);
+    //   console.log(customer)
+    // } 
     
-    async createOrder (lineItems, customer) {
-        // Implementation för att skapa en order
-        return {"id": "order1234567"};
-    }
+    // async createOrder (lineItems, customer) {
+    //     // Implementation för att skapa en order
+    //     return {"id": "order1234567"};
+    // }
 
 
 async createProduct() {
@@ -187,8 +280,8 @@ async getProducts () {
     if (instance === null) {
       instance = new DatabaseConnection();
     }
-    return instance;
+    return instance; 
   }
 };
 
-module.exports = DatabaseConnection;
+module.exports = DatabaseConnection; 

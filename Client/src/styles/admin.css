@@ -107,3 +107,31 @@ h2{
         background-color: rgb(0, 56, 0); /* Ändra bakgrundsfärgen när musen sveps över */
     }
 }
+.order ul{
+    margin: 0 auto;
+    text-align: left;
+}
+.order li {
+    background-color: white;
+    width: 80%;
+    margin: 0 auto;
+    border: none;
+    text-align: left;
+}
+
+.perOrder{
+    text-align: left;
+    width: 50%;
+    margin: 0 auto;  
+    border: 1px solid rgb(124, 124, 124);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.lilineItems{
+background-color: rgb(232, 235, 235);
+margin-bottom: 10px;
+border-bottom: black;
+text-align: left;
+margin: 0 auto;
+}

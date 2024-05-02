@@ -6,7 +6,7 @@ import '../styles/navigation.css';
 export const Navigation = () => {
   return (
     <nav>
-<a href="./" className="logo-link">
+<a href="/" className="logo-link">
   <h1 className="logo">Blomsterhörnan</h1>
 </a>
 

@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { CartItem, useCart } from '../models/CartContext'; 
 import '../styles/cart.css';
+import { Link } from 'react-router-dom';
 
 
 export const Cart = () => {
@@ -21,7 +22,7 @@ export const Cart = () => {
             }
         }
     }, [cart, addToCart]); // Se till att inkludera cart och addToCart i beroendet för useEffect
-
+    console.log(cart)
     return (
       
         <div className='cartContent'>
@@ -37,12 +38,15 @@ export const Cart = () => {
                       <p><i>{cartItem.product.description}</i></p>
                       {/* Pris: {cartItem.product.default_price.unit_amount/100} SEK. */}
                       <p>Antal: {cartItem.quantity} st.</p> 
-                      <p>Pris: {cartItem.product.price}kr</p>
+                      <p>Pris: {cartItem.product.price}:- st</p>
                     </li>
                 ))}
             </ul>
             </div>
+            <Link to="./payment" >
                <button className='pay'>Gå till kassan</button>
+               
+               </Link>
          </div>
      
     );
