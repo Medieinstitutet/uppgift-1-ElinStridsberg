@@ -220,13 +220,12 @@ export const Admin = () => {
             <div className="order">
                 {orders.map((order, index) => (
                     <div key={index} className="perOrder">
-                        <p><b>Order ID: </b>{safeOutput(order._id)}</p>
+                        <p><b>Orderid: </b>{safeOutput(order._id)}</p>
                         <p> <b>Email: </b>{order.linkedCustomer._id}</p>
                         <p><b>Orderdatum: </b>{safeOutput(order.orderDate)}</p>
-                        <p><b>Pris: </b>{safeOutput(order.totalPrice)}</p>
-                     
+                      
 
-                        <h3>Products in Order:</h3>
+                        <h4>Produkter: </h4>
                         <ul>
  {/* {console.log("Line Items:", order.lineItems)}     */}
  
@@ -236,7 +235,7 @@ export const Admin = () => {
             <p><b>ID:</b> {safeOutput(lineItem.product._id)}</p> */}
              <p><b>Produkt: </b> {safeOutput(lineItem.product.name)}</p>
             <p><b>Antal: </b>: {safeOutput(lineItem.quantity)}</p>
-            <p><b>Totalt: </b> {safeOutput(lineItem.totalPrice)}</p>
+            {/* <p><b>Totalt: </b> ({lineItem.product.price} *  {lineItem.quantity})  </p> */}
             {/* {console.log("test", (order.lineItems.id))}     */}
         </li>
     ))}

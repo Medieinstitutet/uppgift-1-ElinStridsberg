@@ -2,11 +2,12 @@
 
 .hero{
     background-color: rgb(237, 233, 229);
-    margin-top: 22px;
+    margin-top: 38px;
     height: 235px;
     display: grid;
     grid-template-columns: repeat(3, 3fr); 
-    margin-bottom: 20px;
+    margin-bottom: 140px;
+padding-bottom: 3px;
 }
 
 h1{
@@ -107,19 +108,19 @@ h1 span {
     margin-right: 25px;
     font-size: 15px;   
     line-height: 1.5; /* Här kan du ändra värdet för att öka eller minska avståndet mellan raderna */
+    
 
-    padding-bottom: 0;
     
 }
 
 .krukväxter{
-    margin-top: 50px;
+    margin-top: 70px;
     font-family: "Lora", serif;
     font-optical-sizing: auto;
     color: #000000;
     font-style: normal;
     font-size: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     font-weight: 200;
     
 }
